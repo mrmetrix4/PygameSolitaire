@@ -13,6 +13,14 @@ class Card(BaseModel):
     number: int
     type: CardType
 
+    class Config:
+        allow_mutation = False
+
+    def __gt__(self, other):
+        if other.type != self.type:
+            raise TypeError("Can't compare cards of different types")
+        return other.number > self.number
+
     @validator('number')
     def validate_number(cls, v):
         if v < 1 or v > 13:
