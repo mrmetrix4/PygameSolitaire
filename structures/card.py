@@ -26,3 +26,7 @@ class Card(BaseModel):
         if v < 1 or v > 13:
             raise ValueError('Card number must be 0 to 13')
         return v
+
+    def draw(self):
+        pass
+    # TODO: Card.draw()

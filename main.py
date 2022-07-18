@@ -26,12 +26,15 @@ def main():
             if event.type == pygame.QUIT:
                 running_loop = False
 
-        pygame.draw.line(SCREEN, 'black', (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
+        pygame.draw.line(SCREEN, Color('black'), (0, WIDTH / 2), (HEIGHT, WIDTH / 2))
 
-        ts, r = BASE_FONT.render("Shall the game begin!")
-        r.update((WIDTH - r.width) / 2, HEIGHT / 8, r.width, r.height)
+        pygame.draw.rect(
+            SCREEN,
+            Color('aquamarine'),
+            (WIDTH / 2 - 50, HEIGHT / 2 - 50, 100, 100),
+            border_radius=10
+        )
 
-        SCREEN.blit(ts, r)
         pygame.display.update()
     pygame.quit()
 
