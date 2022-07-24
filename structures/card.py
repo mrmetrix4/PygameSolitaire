@@ -1,39 +1,40 @@
 import pygame
-from pydantic import BaseModel, validator
-from enum import Enum, auto
+from enum import Enum
 
 
 class CardType(Enum):
-    HEARTS = auto()
-    SPADES = auto()
-    DIAMONDS = auto()
-    CLUBS = auto()
+    HEARTS = 'H'
+    SPADES = 'S'
+    DIAMONDS = 'D'
+    CLUBS = 'C'
 
 
-class Card(BaseModel):
-    number: int
-    type: CardType
-    _sprite = None
+class Card:
 
-    class Config:
-        allow_mutation = False
+    def __init__(self, card_dict):
+        self.name = card_dict['name'][4:-4]
+        self.type, self.number = self.parse_name()
 
-    @validator('number')
-    def validate_number(cls, v):
-        if v < 1 or v > 13:
-            raise ValueError('Card number must be 0 to 13')
-        return v
+    def __str__(self):
+        return f'{self.name}'
 
-    def set_sprite(self, sprite_surface, x, y, width, height):
-        rect = pygame.Rect((x, y, width, height))
-        image = pygame.Surface(rect.size).convert()
-        image.blit(sprite_surface, (0, 0), rect)
-        self._sprite = image
+    def parse_name(self) -> (CardType, int):
+        card_type = CardType(self.name[0])
+        number_str = self.name[-1]
+        match number_str:
+            case '0':
+                number = 10
+            case 'J':
+                number = 11
+            case 'Q':
+                number = 12
+            case 'K':
+                number = 13
+            case 'A':
+                number = 14
+            case num if num.isdigit():
+                number = int(num)
+            case _:
+                raise ValueError('Unexpected card value')
 
-    @property(fset=set_sprite)
-    def sprite(self):
-        return self._sprite
-
-    def draw(self):
-        pass
-    # TODO: Card.draw()
+        return card_type, number
