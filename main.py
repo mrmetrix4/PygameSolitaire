@@ -34,6 +34,10 @@ def init() -> None:
         settings.card_deck.append(Card(child.attrib))
     random.shuffle(settings.card_deck)
 
+    settings.card_back_sprite = (
+        pygame.image.load('assets/Cards Asset/boardgamePack_v2/PNG/Cards/cardBack_blue4.png')
+        .convert_alpha()
+    )
 
 def main():
     clock = pygame.time.Clock()
@@ -47,9 +51,10 @@ def main():
                 running_loop = False
 
         SCREEN.blit(settings.sprite_sheet, (0, 0))
-        card_name, _ = BASE_FONT.render(str(settings.card_deck[0]))
-        SCREEN.blit(card_name, (0, 0))
-        SCREEN.blit(settings.card_deck[0].card_surf, (30, 30))
+        SCREEN.blit(settings.card_back_sprite, (30, 30))
+        SCREEN.blit(settings.card_back_sprite, (33, 30))
+        SCREEN.blit(settings.card_back_sprite, (36, 30))
+        SCREEN.blit(settings.card_back_sprite, (39, 30))
 
         pygame.display.update()
     pygame.quit()
