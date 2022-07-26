@@ -1,6 +1,7 @@
 import logging
+from typing import Literal
 
-sprite_sheet = None
-card_deck = []
-log_level = logging.WARNING
-card_back_sprite = None
+from structures.card import Card
+
+card_deck: list[Card] = []
+log_level: Literal[int] = logging.WARNING

@@ -6,6 +6,7 @@ import pygame
 import pygame.freetype
 
 import settings
+import global_sprites
 from structures.card import Card
 
 pygame.init()
@@ -22,7 +23,7 @@ def init() -> None:
     pygame.display.set_caption('PygameSolitaire')
     SCREEN.fill((200, 200, 200))
 
-    settings.sprite_sheet = (
+    global_sprites.sprite_sheet = (
         pygame.image.load('assets/Cards Asset/boardgamePack_v2/Spritesheets/playingCards.png')
         .convert_alpha()
     )
@@ -34,10 +35,16 @@ def init() -> None:
         settings.card_deck.append(Card(child.attrib))
     random.shuffle(settings.card_deck)
 
-    settings.card_back_sprite = (
+    global_sprites.card_back_sprite = (
         pygame.image.load('assets/Cards Asset/boardgamePack_v2/PNG/Cards/cardBack_blue4.png')
         .convert_alpha()
     )
+
+    global_sprites.card_slot_sprite = (
+        pygame.image.load('assets/Cards Asset/custom_made/card_slot.png')
+        .convert_alpha()
+    )
+
 
 def main():
     clock = pygame.time.Clock()
@@ -50,11 +57,19 @@ def main():
             if event.type == pygame.QUIT:
                 running_loop = False
 
-        SCREEN.blit(settings.sprite_sheet, (0, 0))
-        SCREEN.blit(settings.card_back_sprite, (30, 30))
-        SCREEN.blit(settings.card_back_sprite, (33, 30))
-        SCREEN.blit(settings.card_back_sprite, (36, 30))
-        SCREEN.blit(settings.card_back_sprite, (39, 30))
+        SCREEN.blit(global_sprites.card_back_sprite, (30, 30))
+        SCREEN.blit(global_sprites.card_back_sprite, (33, 30))
+        SCREEN.blit(global_sprites.card_back_sprite, (36, 30))
+        SCREEN.blit(global_sprites.card_back_sprite, (39, 30))
+
+        cards_y_diff = (global_sprites.card_back_sprite.get_size()[1] - global_sprites.card_slot_sprite.get_size()[
+            1]) / 2
+
+        for x in range(4):
+            _ = global_sprites.card_slot_sprite.get_rect(topright=(x * 200 + 650, 30 + cards_y_diff))
+            SCREEN.blit(global_sprites.card_slot_sprite, _)
+
+        SCREEN.blit(settings.card_deck[0].card_surf, (650, 30))
 
         pygame.display.update()
     pygame.quit()
