@@ -62,14 +62,14 @@ def main():
         SCREEN.blit(global_sprites.card_back_sprite, (36, 30))
         SCREEN.blit(global_sprites.card_back_sprite, (39, 30))
 
-        cards_y_diff = (global_sprites.card_back_sprite.get_size()[1] - global_sprites.card_slot_sprite.get_size()[
-            1]) / 2
+        example_rect = global_sprites.card_back_sprite.get_rect(topleft=(0, 30))
 
         for x in range(4):
-            _ = global_sprites.card_slot_sprite.get_rect(topright=(x * 200 + 650, 30 + cards_y_diff))
+            _ = global_sprites.card_slot_sprite.get_rect(midright=(x * 200 + 650, example_rect.centery))
             SCREEN.blit(global_sprites.card_slot_sprite, _)
 
-        SCREEN.blit(settings.card_deck[0].card_surf, (650, 30))
+        sample_card_rect = settings.card_deck[0].card_surf.get_rect(center=_.center)
+        SCREEN.blit(settings.card_deck[0].card_surf, sample_card_rect)
 
         pygame.display.update()
     pygame.quit()
