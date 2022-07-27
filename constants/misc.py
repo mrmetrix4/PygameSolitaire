@@ -1,2 +1,2 @@
 FPS: int = 60
-FONT_SIZE = 24
+FONT_SIZE: int = 24
