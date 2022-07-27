@@ -30,6 +30,8 @@ def main():
             if event.type == pygame.QUIT:
                 running_loop = False
 
+        states.game.draw_columns()
+
         pygame.display.update()
     pygame.quit()
 

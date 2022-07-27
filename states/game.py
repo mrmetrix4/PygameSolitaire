@@ -47,7 +47,7 @@ class Game:
         )
 
     def _init_slots(self):
-        for x_pos in list(locations.SLOTS_CENTER_X)[-4:]:
+        for x_pos in list(locations.ROW_ZERO_CENTER_X)[-4:]:
             slot_rect = self.card_slot_sprite.get_rect(center=(x_pos, locations.ROW_ZERO_CENTER_Y))
             self.screen.blit(self.card_slot_sprite, slot_rect)
 
@@ -59,4 +59,6 @@ class Game:
             self.columns.append([self.card_deck.pop() for _ in range(col + 1)])
 
     def draw_columns(self):
-        pass
+        for idx, col in enumerate(locations.ROW_ZERO_CENTER_X):
+            self.columns[idx][0].draw(center=(col, 400))
+
