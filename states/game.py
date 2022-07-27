@@ -1,15 +1,29 @@
 import random
-import pygame
 import xml.etree.ElementTree as ET
 
-from constants import paths
+import pygame
+
+from constants import paths, locations, colors, misc
 from shared import sprites
 from structures.card import Card
 
 
 class Game:
+    def __init__(self):
+        self.screen: pygame.Surface = pygame.display.set_mode((locations.WIDTH, locations.HEIGHT))
+        self.base_font: pygame.freetype.Font = pygame.freetype.SysFont(None, misc.FONT_SIZE)
 
-    def _init_cards(self):
+        self.card_deck: list[Card] = []
+        self.card_back_sprite: pygame.Surface = None
+        self.card_slot_sprite: pygame.Surface = None
+        self.columns: list[list[Card]] = []
+
+        self._init_screen()
+        self._init_sprites_and_deck()
+        self._init_slots()
+        self._init_columns()
+
+    def _init_sprites_and_deck(self):
         sprites.cards_sprite_sheet = (
             pygame.image.load(paths.CARDS_SPRITE_SHEET)
             .convert_alpha()
@@ -32,11 +46,17 @@ class Game:
             .convert_alpha()
         )
 
-    def __init__(self, screen: pygame.Surface):
-        self.screen = screen
+    def _init_slots(self):
+        for x_pos in locations.SLOTS_CENTER_X:
+            slot_rect = self.card_slot_sprite.get_rect(center=(x_pos, locations.ROW_ZERO_CENTER_Y))
+            self.screen.blit(self.card_slot_sprite, slot_rect)
 
-        self.card_deck: list[Card] = []
-        self.card_back_sprite: pygame.Surface = None
-        self.card_slot_sprite: pygame.Surface = None
+    def _init_screen(self):
+        self.screen.fill(colors.BACKGROUND_GRAY)
 
-        self._init_cards()
+    def _init_columns(self):
+        for col in range(7):
+            self.columns.append([self.card_deck.pop() for _ in range(col + 1)])
+
+    def draw_columns(self):
+        pass
