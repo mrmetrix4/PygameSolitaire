@@ -32,7 +32,9 @@ class Game:
             .convert_alpha()
         )
 
-    def __init__(self):
+    def __init__(self, screen: pygame.Surface):
+        self.screen = screen
+
         self.card_deck: list[Card] = []
         self.card_back_sprite: pygame.Surface = None
         self.card_slot_sprite: pygame.Surface = None

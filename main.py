@@ -1,4 +1,5 @@
 import logging
+import random
 
 import pygame
 import pygame.freetype
@@ -23,7 +24,7 @@ def init() -> None:
     pygame.display.set_caption(settings.GAME_CAPTION)
     SCREEN.fill(colors.BACKGROUND_GRAY)
 
-    states.game = Game()
+    states.game = Game(SCREEN)
 
 
 def main():
@@ -44,12 +45,12 @@ def main():
 
         example_rect = states.game.card_back_sprite.get_rect(topleft=(0, 30))
 
-        for x in range(4):
-            _ = states.game.card_slot_sprite.get_rect(midright=(x * 200 + 650, example_rect.centery))
-            SCREEN.blit(states.game.card_slot_sprite, _)
+        for x in locations.SLOTS_CENTER_X:
+            SCREEN.blit(states.game.card_slot_sprite,
+                        states.game.card_slot_sprite.get_rect(center=(x, example_rect.centery)))
 
-        sample_card_rect = states.game.card_deck[0].card_surf.get_rect(center=_.center)
-        SCREEN.blit(states.game.card_deck[0].card_surf, sample_card_rect)
+        for i in range(4):
+            states.game.card_deck[i].draw(center=(locations.SLOTS_CENTER_X[i], locations.ROW_ZERO_CENTER_Y))
 
         pygame.display.update()
     pygame.quit()

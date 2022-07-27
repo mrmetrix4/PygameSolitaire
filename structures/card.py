@@ -2,7 +2,7 @@ from logging import getLogger
 
 import pygame
 from enum import Enum
-from shared import sprites
+from shared import sprites, states
 
 
 class CardType(Enum):
@@ -60,3 +60,6 @@ class Card:
         color_key = card_surf.get_at((0, 0))
         card_surf.set_colorkey(color_key)
         return card_surf
+
+    def draw(self, **kwargs):
+        states.game.screen.blit(self.card_surf, self.card_surf.get_rect(**kwargs))
