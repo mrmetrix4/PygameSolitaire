@@ -1,10 +1,9 @@
 import logging
-import random
 
 import pygame
 import pygame.freetype
 
-from constants import colors, misc, locations, settings
+from constants import misc, settings
 from shared import states
 from states.game import Game
 
@@ -30,7 +29,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running_loop = False
-        
+
         pygame.display.update()
     pygame.quit()
 

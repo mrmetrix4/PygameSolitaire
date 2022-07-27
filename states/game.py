@@ -47,7 +47,7 @@ class Game:
         )
 
     def _init_slots(self):
-        for x_pos in locations.SLOTS_CENTER_X:
+        for x_pos in list(locations.SLOTS_CENTER_X)[-4:]:
             slot_rect = self.card_slot_sprite.get_rect(center=(x_pos, locations.ROW_ZERO_CENTER_Y))
             self.screen.blit(self.card_slot_sprite, slot_rect)
 
