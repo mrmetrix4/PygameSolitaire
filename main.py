@@ -23,7 +23,7 @@ def init() -> None:
     pygame.display.set_caption('PygameSolitaire')
     SCREEN.fill((200, 200, 200))
 
-    global_sprites.sprite_sheet = (
+    global_sprites.cards_sprite_sheet = (
         pygame.image.load('assets/Cards Asset/boardgamePack_v2/Spritesheets/playingCards.png')
         .convert_alpha()
     )
