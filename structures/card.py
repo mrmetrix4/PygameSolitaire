@@ -2,7 +2,7 @@ from logging import getLogger
 
 import pygame
 from enum import Enum
-import global_sprites
+from shared import sprites
 
 
 class CardType(Enum):
@@ -56,7 +56,7 @@ class Card:
             int(card_dict['height'])
         )
         card_surf = pygame.Surface(card_rect.size).convert_alpha()
-        card_surf.blit(global_sprites.cards_sprite_sheet, (0, 0), card_rect)
+        card_surf.blit(sprites.cards_sprite_sheet, (0, 0), card_rect)
         color_key = card_surf.get_at((0, 0))
         card_surf.set_colorkey(color_key)
         return card_surf

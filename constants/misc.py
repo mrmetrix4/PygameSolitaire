@@ -1,0 +1,2 @@
+FPS: int = 60
+FONT_SIZE = 24
