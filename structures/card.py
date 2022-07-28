@@ -39,7 +39,7 @@ class Card:
             case 'K':
                 number = 13
             case 'A':
-                number = 14
+                number = 1
             case num if num.isdigit():
                 number = int(num)
             case _:
