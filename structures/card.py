@@ -19,6 +19,7 @@ class Card:
 
         self.name = card_dict['name'][4:-4]
         self.type, self.number = self.parse_name()
+        self.revealed: bool = False
 
         self.card_surf = self.init_sprite(card_dict, cards_sprite_sheet)
 

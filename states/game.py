@@ -52,8 +52,10 @@ class Game:
 
     def _init_columns(self):
         for col in range(7):
+            col_cards = [self.card_deck.pop() for _ in range(col + 1)]
+            col_cards[-1].revealed = True
             self.columns.append(
-                Column(col, self.card_back_sprite, [self.card_deck.pop() for _ in range(col + 1)])
+                Column(col, self.card_back_sprite, col_cards)
             )
 
     def update(self, screen):

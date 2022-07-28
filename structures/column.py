@@ -12,13 +12,12 @@ class Column:
 
     def draw_column(self, screen):
         center_x = locations.ROW_ZERO_CENTER_X[self.idx]
-        col_len = len(self.cards)
         for i, c in enumerate(self.cards):
-            center_y = 350 + i * 30
-            if i == col_len - 1:
+            center_y = 330 + i * 50
+            if c.revealed:
                 c.draw(screen, center=(center_x, center_y))
-                continue
-            back_rect = self.card_back_sprite.get_rect(
-                center=(center_x, center_y)
-            )
-            screen.blit(self.card_back_sprite, back_rect)
+            else:
+                back_rect = self.card_back_sprite.get_rect(
+                    center=(center_x, center_y)
+                )
+                screen.blit(self.card_back_sprite, back_rect)
