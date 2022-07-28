@@ -3,14 +3,15 @@ import logging
 import pygame
 import pygame.freetype
 
-from constants import misc, settings
-from shared import states
+from constants import misc, settings, locations
 from states.game import Game
 
 pygame.init()
 
 
 def main():
+    screen = pygame.display.set_mode((locations.WIDTH, locations.HEIGHT))
+
     clock = pygame.time.Clock()
 
     pygame.display.set_caption(settings.GAME_CAPTION)
@@ -21,7 +22,7 @@ def main():
         level=settings.LOG_LEVEL
     )
 
-    states.game = Game()
+    game = Game()
 
     running_loop = True
     while running_loop:
@@ -30,7 +31,7 @@ def main():
             if event.type == pygame.QUIT:
                 running_loop = False
 
-        states.game.draw_columns()
+        game.update(screen)
 
         pygame.display.update()
     pygame.quit()

@@ -4,27 +4,27 @@ import xml.etree.ElementTree as ET
 import pygame
 
 from constants import paths, locations, colors, misc
-from shared import sprites
-from structures.card import Card
+from structures.card import Card, CardType
+from structures.column import Column
+from structures.slot import Slot
 
 
 class Game:
     def __init__(self):
-        self.screen: pygame.Surface = pygame.display.set_mode((locations.WIDTH, locations.HEIGHT))
         self.base_font: pygame.freetype.Font = pygame.freetype.SysFont(None, misc.FONT_SIZE)
 
         self.card_deck: list[Card] = []
         self.card_back_sprite: pygame.Surface = None
         self.card_slot_sprite: pygame.Surface = None
-        self.columns: list[list[Card]] = []
+        self.slots: list[Slot] = []
+        self.columns: list[Column] = []
 
-        self._init_screen()
         self._init_sprites_and_deck()
         self._init_slots()
         self._init_columns()
 
     def _init_sprites_and_deck(self):
-        sprites.cards_sprite_sheet = (
+        self.cards_sprite_sheet = (
             pygame.image.load(paths.CARDS_SPRITE_SHEET)
             .convert_alpha()
         )
@@ -33,7 +33,7 @@ class Game:
         for child in cards_xml_root:
             if child.attrib['name'] == 'cardJoker.png':
                 continue
-            self.card_deck.append(Card(child.attrib))
+            self.card_deck.append(Card(child.attrib, self.cards_sprite_sheet))
         random.shuffle(self.card_deck)
 
         self.card_back_sprite = (
@@ -47,18 +47,18 @@ class Game:
         )
 
     def _init_slots(self):
-        for x_pos in list(locations.ROW_ZERO_CENTER_X)[-4:]:
-            slot_rect = self.card_slot_sprite.get_rect(center=(x_pos, locations.ROW_ZERO_CENTER_Y))
-            self.screen.blit(self.card_slot_sprite, slot_rect)
-
-    def _init_screen(self):
-        self.screen.fill(colors.BACKGROUND_GRAY)
+        for idx, card_type in enumerate(CardType):
+            self.slots.append(Slot(idx, card_type, self.card_slot_sprite))
 
     def _init_columns(self):
         for col in range(7):
-            self.columns.append([self.card_deck.pop() for _ in range(col + 1)])
+            self.columns.append(
+                Column(col, self.card_back_sprite, [self.card_deck.pop() for _ in range(col + 1)])
+            )
 
-    def draw_columns(self):
-        for idx, col in enumerate(locations.ROW_ZERO_CENTER_X):
-            self.columns[idx][0].draw(center=(col, 400))
-
+    def update(self, screen):
+        screen.fill(colors.BACKGROUND_GRAY)
+        for s in self.slots:
+            s.draw_slot(screen)
+        for c in self.columns:
+            c.draw_column(screen)
