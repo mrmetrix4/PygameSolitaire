@@ -1,4 +1,5 @@
 import pygame.image
+import pytest
 
 from constants import paths
 from structures.card import Card
@@ -24,3 +25,17 @@ def test_card_creation(card_sprite):
         },
         card_sprite
     )
+
+
+def test_card_faulty_creation(card_sprite):
+    with pytest.raises(ValueError):
+        Card(
+            {
+                'name': 'cardspades7.png',
+                'x': 0,
+                'y': 0,
+                'width': 200,
+                'height': 200
+            },
+            card_sprite
+        )
